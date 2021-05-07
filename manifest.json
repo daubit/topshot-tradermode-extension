@@ -1,0 +1,28 @@
+{
+    "manifest_version": 2,
+    "name": "TraderMode",
+    "version": "1.0",
+    "description": "Supports the purchase of NBATopshot moments",
+    "homepage_url": "https://github.com/countersoda/TraderMode-Extension",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "browsingData"
+    ],
+    "browser_action": {
+        "default_icon": "src/icons/icon.png",
+        "default_title": "TraderMode",
+        "default_popup": "src/popup/popupTrader.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://nbatopshot.com/*",
+                "https://accounts.meetdapper.com/checkout/*"
+            ],
+            "js": [
+                "/src/content_scripts/instantBuy.js"
+            ]
+        }
+    ]
+}
