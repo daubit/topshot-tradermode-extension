@@ -1,4 +1,5 @@
-import fetch from "node-fetch";
+import $ from "jquery";
+console.log("Enter?")
 
 const storage = browser.storage.local;
 const API_URL = "https://wax.greymass.com/v1/history/get_actions";
@@ -49,8 +50,7 @@ async function init() {
 }
 
 function alertDonate() {
-    document.getElementById("status").style = "visible";
-    document.getElementById("status").innerHTML = "No donation found!";
+    $("#status").css("display", "visible").text("No donation found!")
 }
 
 function disableToggleButton() {
@@ -229,5 +229,3 @@ setInterval(async function () {
 }, 1000);
 
 init().catch(console.log);
-
-console.log("Enter?")

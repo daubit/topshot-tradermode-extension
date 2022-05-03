@@ -88,15 +88,7 @@ input:checked + .slider:before {
 }
 
 .ButtonName {
-  float: left;
-  padding: 10px;
   color: white;
-}
-
-.box {
-  float: right;
-  padding: 5px;
-  padding-right: 20px;
 }
 
 .img {
@@ -106,7 +98,7 @@ input:checked + .slider:before {
   padding: 10px;
 }
 
-#popup-content {
+#content {
   background-color: #020074;
 }
 
@@ -121,10 +113,27 @@ input:checked + .slider:before {
 .status {
   color: orange;
   text-align: right;
-  margin: 10px;
-  padding-bottom: 10px;
 }
 
 .address {
   font-size: x-small;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+.row {
+  gap: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
 }
