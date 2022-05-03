@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+  <!-- Logo -->
+  <div class="img">
+    <img src="icon.png" alt="Logo" width="160"></img>
+  </div>
+
+  <div id="popup-content">
+
+    <!-- trader mode switch -->
+    <div class="ButtonName"><b>Trader mode</b><sup> <span
+          title="While active, the buy assistant will automatically click the buttons on page entrance when buying a specific moment"
+          style="cursor: pointer;">(i)</span>
+      </sup>
+    </div>
+    <div class="box">
+      <label id="traderToggle" class="switch">
+        <input id="traderCheckBox" type="checkbox" />
+        <span class="slider round"></span>
+      </label>
+    </div>
+    </br> </br> </br>
+
+    <!-- rage switch -->
+    <div class="ButtonName"> <b>Rage mode </b><sup> <span
+          title="While active, the buy assistant will automatically buy the moment if available"
+          style="cursor: pointer;">(i)</span></sup>
+    </div>
+    <div class="box">
+      <label id="rageToggle" class="switch">
+        <input id="rageCheckBox" type="checkbox" />
+        <span class="slider round"></span>
+      </label>
+    </div> </br></br></br>
+
+    <!-- memo field -->
+    <div class="ButtonName">
+      <b>Memo for WAX</b>
+      <sup> <span title="Please donate any amount of WAX to yznbq.wam with the given memo."
+          style="cursor: pointer;">(i)</span></sup>
+      </br>
+      <b class="address">Address: yznbq.wam</b>
+    </div>
+
+    <div class="box">
+      <b id="waxText" class="text"></b>
+    </div>
+    </br></br></br></br>
+
+    <!-- Status field -->
+    <div>
+      <div class="ButtonName">
+        <b>Status</b>
+      </div>
+    </div>
+
+    <div class="box">
+      <b id="status" class="status">Loading...</b>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>

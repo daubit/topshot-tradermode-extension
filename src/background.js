@@ -1,17 +1,20 @@
 console.log("Enter content scripts");
 var counter = 0;
 
-myStorage = browser.storage.local;
+const myStorage = browser.storage.local;
 myStorage.get("buttonOn").then((value) => {
+  console.log("Toggle")
   if (value.buttonOn.value) {
     setTimeout(() => clickBuyBtn(), 800);
   }
 });
 myStorage.get("rageOn").then((value) => {
+  console.log("Toggle")
   if (value.rageOn.value) {
     setTimeout(() => rageClickBuyBtn(), 800);
   }
 });
+
 instant().catch(console.log);
 
 function instant() {
@@ -26,9 +29,9 @@ function instant() {
   });
 }
 
-async function clickBuyBtn() {
+function clickBuyBtn() {
   if (counter++ > 10) return;
-  var buyBtn = await window.document.getElementsByClassName(
+  const buyBtn = window.document.getElementsByClassName(
     "ButtonBase__StyledButton-sc-1qgxh2e-0 gjCpfL Button__StyledButton-ig3kkl-1 fXrqGh"
   );
   if (buyBtn[0] !== undefined) {
@@ -43,8 +46,8 @@ async function clickBuyBtn() {
   }
 }
 
-async function clickConfirmBtn() {
-  var confirmBtn = await window.document.getElementsByClassName(
+function clickConfirmBtn() {
+  const confirmBtn = window.document.getElementsByClassName(
     "ButtonBase__StyledButton-sc-1qgxh2e-0 gjCpfL Button__StyledButton-ig3kkl-1 GJBBL"
   );
   if (confirmBtn[0] !== undefined) {
@@ -60,8 +63,8 @@ async function clickConfirmBtn() {
  * This workflow below works for the rage mode
  */
 
-async function rageClickBuyBtn() {
-  var buyBtn = await window.document.getElementsByClassName(
+function rageClickBuyBtn() {
+  const buyBtn = window.document.getElementsByClassName(
     "ButtonBase__StyledButton-sc-1qgxh2e-0 gjCpfL Button__StyledButton-ig3kkl-1 fXrqGh"
   );
   if (buyBtn[0] !== undefined) {
@@ -76,8 +79,8 @@ async function rageClickBuyBtn() {
   }
 }
 
-async function rageClickConfirmBtn() {
-  var confirmBtn = await window.document.getElementsByClassName(
+function rageClickConfirmBtn() {
+  const confirmBtn = window.document.getElementsByClassName(
     "ButtonBase__StyledButton-sc-1qgxh2e-0 gjCpfL Button__StyledButton-ig3kkl-1 GJBBL"
   );
   if (confirmBtn[0] !== undefined) {
@@ -89,9 +92,9 @@ async function rageClickConfirmBtn() {
   }
 }
 
-async function rageDapperBuyBtn() {
+function rageDapperBuyBtn() {
   console.log('Enter Dapper Function')
-  var buyBtn = await window.document.getElementsByClassName("css-ftq8xn");
+  const buyBtn = window.document.getElementsByClassName("css-ftq8xn");
   if (buyBtn[0] !== undefined) {
     console.log('Dapper button found')
     buyBtn[0].click();

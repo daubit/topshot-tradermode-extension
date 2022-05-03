@@ -10,9 +10,9 @@
         "browsingData"
     ],
     "browser_action": {
-        "default_icon": "src/icons/icon.png",
+        "default_icon": "public/icon.png",
         "default_title": "TraderMode",
-        "default_popup": "src/popup/popupTrader.html"
+        "default_popup": "public/index.html"
     },
     "content_scripts": [
         {
@@ -21,7 +21,7 @@
                 "https://accounts.meetdapper.com/checkout/*"
             ],
             "js": [
-                "/src/content_scripts/instantBuy.js"
+                "/src/background.js"
             ]
         }
     ]
