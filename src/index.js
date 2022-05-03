@@ -1,7 +1,7 @@
 const $ = require("jquery");
 
 const storage = browser.storage.local;
-const API_URL = "https://wax.greymass.com/v1/history/get_actions";
+const API_URL = "https://api.waxsweden.org:443/v2/history/get_actions";
 
 var body = {
     account_name: "yznbq.wam",
@@ -35,7 +35,8 @@ const random = (length = 10) => {
 
 async function init() {
     storage.get("memo").then(initMemo).catch(console.log);
-    let hasDonated = await checkDonation();
+    const hasDonated = await checkDonation();
+    console.log(hasDonated)
     if (!hasDonated) {
         toggleButton(false);
         alertDonate();
@@ -53,10 +54,11 @@ function alertDonate() {
 }
 
 function toggleButton(state) {
+    console.log("Disabled", state)
     setRage(state);
     setToggle(state);
-    document.getElementById("rageCheckBox").disabled = !state;
-    document.getElementById("traderCheckBox").disabled = !state;
+    $("#rageCheckBox").css("disabled", !state)
+    $("#traderCheckBox").css("disabled", !state)
 }
 
 function initTimestamp(time) {
@@ -74,7 +76,7 @@ function initMemo(data) {
     } else {
         setSeed(data.memo.seed);
     }
-    document.querySelector("#waxText").textContent = memo.seed;
+    $("#waxText").text(memo.seed)
 }
 
 function initTradeButton(item) {
@@ -104,57 +106,54 @@ function initRageButton(item) {
 async function checkDonation() {
     if (new Date().getTime() - (await getTime()) < weekVal) return true;
     let skip = 0;
-    let search = true;
-    let timeout = false;
+    let found = false;
     let till = new Date();
+    till.setTime(till.getTime() - weekVal)
     const memo = await getSeed();
 
-    till.setTime(till.getTime() - weekVal); //7 * 24 * 60 * 60 * 1000
-
-    while (search && !timeout) {
-        body.skip = skip;
-        var result = await fetch(API_URL, {
-            method: "post",
-            body: JSON.stringify(body),
-            headers: { "Content-Type": "application/json" },
-        })
-            .then((val) => {
-                return val.json();
-            })
+    while (!found) {
+        const account = body.account_name
+        const limit = body.limit
+        const request = `${API_URL}?skip=${skip}&limit=${limit}&account=${account}`
+        var result = await fetch(request).then((val) => val.json())
             .catch((e) => {
-                console.log("Error")
                 console.log(e);
                 alertDonate();
+                return null;
             });
-        [search, timeout] = getActions(result, memo, till);
+        if (!result) {
+            return false
+        }
+        console.log(result)
+        found = getActions(result, memo, till);
         skip += 100;
     }
-
-    return !search;
+    console.log(found)
+    return found;
 }
 
 function getActions(raw_actions, memo, till) {
-    let actions = raw_actions.actions;
-    if (actions.length === 0) return [true, true];
-
-    for (let i = actions.length - 1; i > 0; i--) {
-        let trace = actions[i].action_trace.act;
-        if (till.getTime() > new Date(actions[i].block_time).getTime()) {
-            return [true, true];
+    let actions = raw_actions.actions || [];
+    if (actions.length === 0) return false;
+    for (let action of actions) {
+        let act = action.act;
+        const actionTime = new Date(actions[i].timestamp).getTime()
+        console.log(act)
+        if (till.getTime() > actionTime) {
+            return false;
         }
-        if (
-            trace !== undefined &&
-            trace.data !== null &&
-            new String(trace.data.memo)
+        const actionMemo = act !== undefined &&
+            act.data !== null &&
+            new String(act.data.memo)
                 .replace("\n", "")
                 .replace("\n", "")
-                .localeCompare(new String(memo.seed)) === 0
-        ) {
-            setTime(new Date(actions[i].block_time).getTime() + 2 * 60 * 60 * 1000);
-            return [false, false];
+        console.log(actionMemo)
+        if (actionMemo === memo.seed) {
+            setTime(actionTime + 2 * 60 * 60 * 1000);
+            return true;
         }
     }
-    return [true, false];
+    return false;
 }
 
 async function setSeed(seed) {

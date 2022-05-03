@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
+    "start": "clear; node src/watcher.js",
     "build": "browserify src/index.js -o public/index.js"
   },
   "keywords": [],
@@ -11,7 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "browserify": "^17.0.0",
+    "chokidar": "^3.5.3",
     "jquery": "^3.6.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "shelljs": "^0.8.5"
   }
 }
