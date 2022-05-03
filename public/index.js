@@ -10920,16 +10920,15 @@ const random = (length = 10) => {
 async function init() {
     storage.get("memo").then(initMemo).catch(console.log);
     const hasDonated = await checkDonation();
-    console.log(hasDonated)
     if (!hasDonated) {
-        toggleButton(false);
+        disableButton(true);
         alertDonate();
         setTime(-1);
     } else {
         storage.get("timestamp").then(initTimestamp).catch(console.log);
         storage.get("buttonOn").then(initTradeButton).catch(console.log);
         storage.get("rageOn").then(initRageButton).catch(console.log);
-        toggleButton(true);
+        disableButton(false);
     }
 }
 
@@ -10937,15 +10936,13 @@ function alertDonate() {
     $("#status").css("display", "visible").text("No donation found!")
 }
 
-function toggleButton(state) {
-    console.log("Disabled", state)
-    setRage(state);
-    setToggle(state);
-    $("#rageCheckBox").css("disabled", !state)
-    $("#traderCheckBox").css("disabled", !state)
+function disableButton(state) {
+    document.querySelector("#rageCheckBox").disabled = state;
+    document.querySelector("#traderCheckBox").disabled = state;
 }
 
 function initTimestamp(time) {
+    console.log(time)
     if (time.timestamp === undefined || time.timestamp.date === undefined) {
         alertDonate();
         setTime(-1);
@@ -10991,11 +10988,12 @@ async function checkDonation() {
     if (new Date().getTime() - (await getTime()) < weekVal) return true;
     let skip = 0;
     let found = false;
+    let next = true;
     let till = new Date();
     till.setTime(till.getTime() - weekVal)
     const memo = await getSeed();
 
-    while (!found) {
+    while (!found && next) {
         const account = body.account_name
         const limit = body.limit
         const request = `${API_URL}?skip=${skip}&limit=${limit}&account=${account}`
@@ -11009,7 +11007,9 @@ async function checkDonation() {
             return false
         }
         console.log(result)
-        found = getActions(result, memo, till);
+        const actionRes = getActions(result, memo, till);
+        found = actionRes.found
+        next = actionRes.next
         skip += 100;
     }
     console.log(found)
@@ -11018,26 +11018,24 @@ async function checkDonation() {
 
 function getActions(raw_actions, memo, till) {
     let actions = raw_actions.actions || [];
-    if (actions.length === 0) return false;
-    for (let action of actions) {
-        let act = action.act;
-        const actionTime = new Date(actions[i].timestamp).getTime()
-        console.log(act)
+    if (actions.length === 0) return { found: false, next: false };
+    for (const action of actions) {
+        const { act, timestamp } = action;
+        console.log(act, action,)
+        const actionTime = new Date(timestamp).getTime()
         if (till.getTime() > actionTime) {
-            return false;
+            return { found: false, next: false };
         }
-        const actionMemo = act !== undefined &&
+        if (act !== undefined &&
             act.data !== null &&
             new String(act.data.memo)
                 .replace("\n", "")
-                .replace("\n", "")
-        console.log(actionMemo)
-        if (actionMemo === memo.seed) {
+                .replace("\n", "") === memo.seed) {
             setTime(actionTime + 2 * 60 * 60 * 1000);
-            return true;
+            return { found: true, next: false };
         }
     }
-    return false;
+    return { found: false, next: true };
 }
 
 async function setSeed(seed) {
