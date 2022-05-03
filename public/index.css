@@ -136,4 +136,5 @@ input:checked + .slider:before {
   display: flex;
   flex-direction: row;
   justify-items: center;
+  text-align: center;
 }
