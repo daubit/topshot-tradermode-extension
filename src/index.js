@@ -1,23 +1,23 @@
 var isOn, isRage;
-const ls = localStorage
+const ls = browser.storage.local
 
 function init() {
-    setTrader(ls.getItem("isOn") === "true")
-    setRage(ls.getItem("isRage") === "true")
+    ls.get("isOn").then((item) => { setTrader(item.isOn) })
+    ls.get("isRage").then((item) => { setRage(item.isRage) })
 }
 
 function setTrader(value) {
-    console.log("isOn", value)
+    if (value === undefined) value = false
     isOn = value;
-    ls.setItem("isOn", isOn)
+    ls.set({ isOn })
     document.querySelector("#traderCheckBox").checked = value;
     if (isOn) setRage(false);
 }
 
 function setRage(value) {
-    console.log("isRage", value)
+    if (value === undefined) value = false
     isRage = value;
-    ls.setItem("isRage", isRage)
+    ls.set({ isRage })
     document.querySelector("#rageCheckBox").checked = value;
     if (isRage) setTrader(false);
 }
