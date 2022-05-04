@@ -4,8 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "clear; node src/watcher.js",
-    "build": "uglifyjs -c -m public/index.js"
+    "start": "clear; node src/watcher.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +14,6 @@
     "chokidar": "^3.5.3",
     "jquery": "^3.6.0",
     "node-fetch": "^2.6.1",
-    "shelljs": "^0.8.5",
-    "uglify-js": "^3.15.4"
+    "shelljs": "^0.8.5"
   }
 }
