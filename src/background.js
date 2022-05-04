@@ -1,32 +1,15 @@
 console.log("Enter content scripts");
 var counter = 0;
+const ls = localStorage
 
-const myStorage = browser.storage.local;
-myStorage.get("buttonOn").then((value) => {
-  console.log("Toggle")
-  if (value.buttonOn.value) {
-    setTimeout(() => clickBuyBtn(), 800);
+function init() {
+  const isOn = ls.getItem("isOn") === "true"
+  const isRage = ls.getItem("isRage") === "true"
+  if (isOn) {
+    clickBuyBtn()
+  } else if (isRage) {
+    rageClickBuyBtn()
   }
-});
-myStorage.get("rageOn").then((value) => {
-  console.log("Toggle")
-  if (value.rageOn.value) {
-    setTimeout(() => rageClickBuyBtn(), 800);
-  }
-});
-
-instant().catch(console.log);
-
-function instant() {
-  browser.runtime.onMessage.addListener((request) => {
-    console.log("Request: " + request.command);
-    if (request.command === "buy") {
-      clickBuyBtn();
-    } else if ((request.command = "rage")) {
-      setTimeout(() => rageClickBuyBtn(), 800);
-    }
-    return true;
-  });
 }
 
 function clickBuyBtn() {
@@ -105,3 +88,6 @@ function rageDapperBuyBtn() {
     console.log("Dapper button is not available\nTrying again...");
   }
 }
+
+
+init()
