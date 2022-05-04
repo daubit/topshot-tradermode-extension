@@ -6,7 +6,7 @@ import shell from "shelljs"
 watch('./src').on('all', (event, path) => {
     console.log(`Detecting ${event}`)
     if (event === "change" && path === "src/index.js") {
-        const res = shell.exec(`browserify ${path} -o public/index.js`)
+        shell.exec(`browserify ${path} -o public/index.js`)
         console.log("Compiling...")
 
     } setTimeout(() => {
