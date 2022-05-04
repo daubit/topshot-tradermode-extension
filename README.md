@@ -1,5 +1,10 @@
 # Tradermode
 
+### Installment
+Current support only for FireFox.
+
+<br>
+
 An extension that helps purchase NBATopshot moments.
 
 Can be used in combination with https://livetoken.co/deals/live.<br>
