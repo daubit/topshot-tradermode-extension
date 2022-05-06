@@ -2,7 +2,7 @@
 
 ### Installment
 Current support only for FireFox.
-
+Extension can be found in the build folder.
 <br>
 
 An extension that helps purchase NBATopshot moments.
