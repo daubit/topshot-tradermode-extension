@@ -1,8 +1,8 @@
 # Tradermode
 
 ### Installment
-Current support only for FireFox.
-Extension can be found in the build folder.
+Current support only for FireFox.<br>
+Extension can be found in the build folder.<br>
 <br>
 
 ### Details
