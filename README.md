@@ -5,6 +5,7 @@ Current support only for FireFox.
 Extension can be found in the build folder.
 <br>
 
+### Details
 An extension that helps purchase NBATopshot moments.
 
 Can be used in combination with https://livetoken.co/deals/live.<br>
